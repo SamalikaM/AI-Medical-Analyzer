@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Admin — VitalScan AI{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-4">Admin panel</h2>
+
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-label">Users</div><div class="stat-value">{{ users|length }}</div></div></div>
+    <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-label">Reports</div><div class="stat-value">{{ reports|length }}</div></div></div>
+  </div>
+
+  <div class="card-custom mb-4">
+    <h5 class="mb-3">Users</h5>
+    <div class="table-responsive">
+      <table class="table table-custom align-middle">
+        <thead><tr><th>Email</th><th>Joined</th><th>Admin</th></tr></thead>
+        <tbody>
+          {% for u in users %}
+          <tr><td>{{ u['email'] }}</td><td class="text-muted">{{ u['created_at'][:10] }}</td><td>{{ 'Yes' if u['is_admin'] else 'No' }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card-custom">
+    <h5 class="mb-3">All reports</h5>
+    <div class="table-responsive">
+      <table class="table table-custom align-middle">
+        <thead><tr><th>Filename</th><th>User</th><th>Date</th><th>Score</th><th></th></tr></thead>
+        <tbody>
+          {% for r in reports %}
+          <tr>
+            <td>{{ r['filename'] }}</td>
+            <td class="text-muted">{{ r['email'] }}</td>
+            <td class="text-muted">{{ r['created_at'][:10] }}</td>
+            <td>{{ r['health_score'] }}</td>
+            <td>
+              <form method="POST" action="{{ url_for('admin_delete', report_id=r['id']) }}" onsubmit="return confirm('Delete this report?');">
+                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

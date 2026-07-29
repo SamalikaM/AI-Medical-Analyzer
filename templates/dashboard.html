@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — VitalScan AI{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <h2 class="mb-0">Dashboard</h2>
+    <a href="{{ url_for('upload') }}" class="btn-primary-custom btn">+ New report</a>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="stat-label">Reports</div>
+        <div class="stat-value">{{ report_count }}</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="stat-label">Latest health score</div>
+        <div class="stat-value">{{ latest_score if latest_score is not none else '—' }}</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="stat-label">Average score</div>
+        <div class="stat-value">{{ avg_score if avg_score is not none else '—' }}</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="stat-label">Risk flags noted</div>
+        <div class="stat-value">{{ total_risks }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="card-custom h-100">
+        <h5 class="mb-3">Health score trend</h5>
+        {{ trend_chart | safe }}
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="card-custom h-100">
+        <h5 class="mb-3">Recent activity</h5>
+        {% if recent %}
+        <ul class="list-unstyled mb-0">
+          {% for r in recent %}
+          <li class="d-flex justify-content-between align-items-center py-2 {% if not loop.last %}border-bottom{% endif %}" style="border-color: var(--border) !important;">
+            <div>
+              <a href="{{ url_for('view_report', report_id=r['id']) }}" class="fw-semibold">{{ r['filename'] }}</a>
+              <div class="text-muted small">{{ r['created_at'][:10] }}</div>
+            </div>
+            <span class="mono fw-bold" style="color: var(--primary);">{{ r['health_score'] }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted mb-0">No reports yet. <a href="{{ url_for('upload') }}">Upload your first one.</a></p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

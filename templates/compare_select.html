@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Compare reports — VitalScan AI{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-1">Compare two reports</h2>
+  <p class="text-muted mb-4">Select exactly two reports to see what changed.</p>
+  {% if reports|length < 2 %}
+  <p class="text-muted">You need at least two reports to compare. <a href="{{ url_for('upload') }}">Upload another one</a>.</p>
+  {% else %}
+  <form method="GET" action="{{ url_for('compare') }}">
+    <div class="card-custom mb-3">
+      {% for r in reports %}
+      <div class="form-check py-2 {% if not loop.last %}border-bottom{% endif %}" style="border-color: var(--border) !important;">
+        <input class="form-check-input" type="checkbox" name="id" value="{{ r['id'] }}" id="r{{ r['id'] }}">
+        <label class="form-check-label d-flex justify-content-between w-100" for="r{{ r['id'] }}">
+          <span>{{ r['filename'] }}</span>
+          <span class="text-muted small">{{ r['created_at'][:10] }} &middot; score {{ r['health_score'] }}</span>
+        </label>
+      </div>
+      {% endfor %}
+    </div>
+    <button type="submit" class="btn-primary-custom btn">Compare selected</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

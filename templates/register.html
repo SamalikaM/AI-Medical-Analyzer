@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Create account — VitalScan AI{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="card-custom auth-card fade-in">
+    <h3 class="mb-1">Create your account</h3>
+    <p class="text-muted mb-4">Start analyzing lab reports in under a minute.</p>
+    <form method="POST">
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" required autofocus>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" minlength="6" required>
+        <div class="form-text">At least 6 characters.</div>
+      </div>
+      <button type="submit" class="btn-primary-custom btn w-100">Create account</button>
+    </form>
+    <p class="text-center text-muted small mt-3 mb-0">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+  </div>
+</div>
+{% endblock %}

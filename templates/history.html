@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}History — VitalScan AI{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-3">Report history</h2>
+  <form method="GET" class="mb-4" style="max-width: 420px;">
+    <input type="text" name="q" value="{{ search }}" class="form-control" placeholder="Search by filename, patient, or summary...">
+  </form>
+
+  {% if reports %}
+  <div class="table-responsive">
+    <table class="table table-custom align-middle">
+      <thead><tr><th>Report</th><th>Date</th><th>Health score</th><th></th></tr></thead>
+      <tbody>
+        {% for r in reports %}
+        <tr>
+          <td><a href="{{ url_for('view_report', report_id=r['id']) }}" class="fw-semibold">{{ r['filename'] }}</a></td>
+          <td class="text-muted">{{ r['created_at'][:10] }}</td>
+          <td><span class="flag-badge {{ 'flag-normal' if r['health_score'] >= 75 else ('flag-low' if r['health_score'] >= 50 else 'flag-critical') }}">{{ r['health_score'] }}</span></td>
+          <td class="text-end">
+            <a href="{{ url_for('view_report', report_id=r['id']) }}" class="btn-outline-custom btn btn-sm">View</a>
+            <form method="POST" action="{{ url_for('delete_report', report_id=r['id']) }}" class="d-inline" onsubmit="return confirm('Delete this report?');">
+              <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-muted">No reports found. <a href="{{ url_for('upload') }}">Upload one</a>.</p>
+  {% endif %}
+</div>
+{% endblock %}

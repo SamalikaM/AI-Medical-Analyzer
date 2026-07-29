@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Log in — VitalScan AI{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="card-custom auth-card fade-in">
+    <h3 class="mb-1">Welcome back</h3>
+    <p class="text-muted mb-4">Log in to view your reports.</p>
+    <form method="POST">
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" required autofocus>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" required>
+      </div>
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" name="remember" id="remember">
+        <label class="form-check-label small text-muted" for="remember">Remember me</label>
+      </div>
+      <button type="submit" class="btn-primary-custom btn w-100">Log in</button>
+    </form>
+    <p class="text-center text-muted small mt-3 mb-0">No account? <a href="{{ url_for('register') }}">Sign up</a></p>
+  </div>
+</div>
+{% endblock %}

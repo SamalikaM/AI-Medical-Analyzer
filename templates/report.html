@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}{{ report['filename'] }} — VitalScan AI{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
+    <div>
+      <h2 class="mb-1">{{ report['filename'] }}</h2>
+      <p class="text-muted mb-0">Analyzed {{ report['created_at'][:10] }}</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('export_pdf', report_id=report['id']) }}" class="btn-outline-custom btn btn-sm">Download PDF</a>
+      <a href="{{ url_for('export_csv', report_id=report['id']) }}" class="btn-outline-custom btn btn-sm">Export CSV</a>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    {% if patient_info %}
+    <div class="col-lg-4">
+      <div class="card-custom h-100">
+        <h6 class="mb-3">Patient information</h6>
+        <table class="table table-sm mb-0">
+          {% for k, v in patient_info.items() %}
+          <tr><td class="text-muted">{{ k.replace('_',' ').title() }}</td><td class="text-end fw-semibold">{{ v }}</td></tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+    {% endif %}
+    <div class="col-lg-{{ '4' if patient_info else '6' }}">
+      <div class="card-custom h-100">{{ gauge_chart | safe }}</div>
+    </div>
+    <div class="col-lg-{{ '4' if patient_info else '6' }}">
+      <div class="card-custom h-100">{{ pie_chart | safe }}</div>
+    </div>
+  </div>
+
+  <div class="card-custom mb-4">
+    <h5 class="mb-2">AI summary</h5>
+    <p class="mb-0">{{ report['summary'] }}</p>
+  </div>
+
+  <div class="card-custom mb-4">
+    <h5 class="mb-3">Laboratory values</h5>
+    {% if lab_results %}
+    <div class="table-responsive">
+      <table class="table table-custom align-middle">
+        <thead><tr><th>Test</th><th>Value</th><th>Unit</th><th>Normal range</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for r in lab_results %}
+          <tr>
+            <td>{{ r.label }}</td>
+            <td class="lab-value fw-bold">{{ r.value }}</td>
+            <td class="text-muted">{{ r.unit }}</td>
+            <td class="mono text-muted">{{ r.low }}–{{ r.high }}</td>
+            <td><span class="flag-badge flag-{{ r.flag }}">{{ r.flag }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="text-muted mb-0">No lab values could be detected in this report.</p>
+    {% endif %}
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-lg-6"><div class="card-custom h-100">{{ bar_chart | safe }}</div></div>
+    <div class="col-lg-6"><div class="card-custom h-100">{{ radar_chart | safe }}</div></div>
+  </div>
+
+  {% if risks %}
+  <div class="card-custom mb-4">
+    <h5 class="mb-3">Educational risk assessment</h5>
+    <div class="row g-3">
+      {% for r in risks %}
+      <div class="col-md-3 col-6">
+        <div class="p-3 rounded" style="background: var(--bg); border: 1px solid var(--border);">
+          <div class="fw-semibold small">{{ r.condition }}</div>
+          <span class="flag-badge flag-{{ 'normal' if r.level == 'low' else ('high' if r.level == 'moderate' else 'critical') }} mt-1 d-inline-block">{{ r.level }}</span>
+          <div class="text-muted small mt-1">{{ (r.confidence * 100) | int }}% confidence</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="text-muted small mt-3 mb-0">These are educational estimates based on reference-range comparisons only, not clinical diagnoses.</p>
+  </div>
+  {% endif %}
+
+  <div class="card-custom">
+    <h5 class="mb-3">Recommendations</h5>
+    <ul class="mb-0">
+      {% for rec in recommendations %}
+      <li class="mb-1">{{ rec }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

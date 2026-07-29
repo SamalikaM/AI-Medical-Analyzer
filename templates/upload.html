@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Upload — VitalScan AI{% endblock %}
+{% block content %}
+<div class="container py-4" style="max-width: 640px;">
+  <h2 class="mb-1">Upload a report</h2>
+  <p class="text-muted mb-4">PDF, TXT, PNG, and JPEG are supported. Image uploads require Tesseract OCR to be installed on the server.</p>
+
+  <form id="upload-form" method="POST" enctype="multipart/form-data" action="{{ url_for('upload') }}">
+    <div id="dropzone" class="dropzone mb-3">
+      <input type="file" id="file-input" name="file" accept=".pdf,.txt,.png,.jpg,.jpeg" class="d-none">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" style="color: var(--primary); margin-bottom: 10px;">
+        <path d="M12 16V4m0 0L7 9m5-5l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <p class="mb-1 fw-semibold">Drag &amp; drop your report here</p>
+      <p class="text-muted small mb-0">or click to browse (PDF, TXT, PNG, JPEG — max 10MB)</p>
+      <p id="selected-file-name" class="mono small mt-2 mb-0" style="color: var(--primary);"></p>
+    </div>
+
+    <button type="submit" class="btn-primary-custom btn w-100">Analyze report</button>
+  </form>
+
+  <div class="card-custom mt-4">
+    <h6 class="mb-2">What we'll detect</h6>
+    <p class="text-muted small mb-0">Patient name, age, gender, doctor, hospital, report date, and up to 24 common lab markers (CBC, glucose, lipid panel, liver &amp; kidney function, vitamins, electrolytes, thyroid).</p>
+  </div>
+</div>
+{% endblock %}

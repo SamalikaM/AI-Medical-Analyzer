@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}VitalScan AI{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script>
+    // set theme before paint to avoid flash
+    (function(){ var m = document.cookie.match(/theme=(dark|light)/); if (m && m[1] === 'dark') document.documentElement.setAttribute('data-theme','dark'); })();
+  </script>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('dashboard') if session.get('user_id') else url_for('landing') }}">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M2 12h4l2-7 4 14 3-9 2 4h5" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        VitalScan AI
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        {% if session.get('user_id') %}
+        <ul class="navbar-nav me-auto ms-4 gap-2">
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('upload') }}">Upload</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('history') }}">History</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('compare') }}">Compare</a></li>
+          {% if session.get('is_admin') %}
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_panel') }}">Admin</a></li>
+          {% endif %}
+        </ul>
+        <div class="d-flex align-items-center gap-2">
+          <button class="theme-toggle-btn" title="Toggle dark mode">🌙</button>
+          <span class="text-muted small d-none d-md-inline">{{ session.get('email') }}</span>
+          <a href="{{ url_for('logout') }}" class="btn-outline-custom btn btn-sm">Log out</a>
+        </div>
+        {% else %}
+        <ul class="navbar-nav ms-auto gap-2 align-items-lg-center">
+          <li class="nav-item"><button class="theme-toggle-btn" title="Toggle dark mode">🌙</button></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Log in</a></li>
+          <li class="nav-item"><a class="btn-primary-custom btn" href="{{ url_for('register') }}">Get started</a></li>
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+      <div class="toast align-items-center border-0 show mb-2" role="alert" data-bs-autohide="true" data-bs-delay="4000"
+           style="background: var(--surface); box-shadow: var(--shadow-lg);">
+        <div class="d-flex">
+          <div class="toast-body" style="color: var(--text);">{{ message }}</div>
+          <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      </div>
+      {% endfor %}
+    {% endwith %}
+  </div>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="mt-5 py-4 border-top" style="border-color: var(--border) !important;">
+    <div class="container text-center text-muted small">
+      <p class="mb-1">⚠️ <strong>Educational tool only.</strong> Not a medical diagnosis. Always consult a licensed healthcare professional.</p>
+      <p class="mb-0">&copy; 2026 VitalScan AI &middot; Built for demonstration purposes</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script>
+    document.querySelectorAll('.toast').forEach(t => new bootstrap.Toast(t).show());
+  </script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

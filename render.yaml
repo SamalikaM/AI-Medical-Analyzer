@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: vitalscan-ai
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true

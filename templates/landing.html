@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block title %}VitalScan AI — Understand Your Lab Reports{% endblock %}
+{% block content %}
+
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 fade-in">
+        <span class="badge rounded-pill mb-3" style="background: var(--primary-light); color: var(--primary); padding: .5rem 1rem; font-weight: 600;">Educational health analytics</span>
+        <h1 class="hero-title mb-3">Turn a lab report into a story your body can <span class="accent">actually explain.</span></h1>
+        <p class="hero-subtitle mb-4">Upload a blood report and get plain-language explanations, abnormal-value flags, and an educational risk overview in seconds. Built for learning, not diagnosis.</p>
+        <div class="d-flex gap-3 flex-wrap">
+          <a href="{{ url_for('register') }}" class="btn-primary-custom btn btn-lg">Analyze a report — it's free</a>
+          <a href="#how-it-works" class="btn-outline-custom btn btn-lg">See how it works</a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <svg class="vitals-line" viewBox="0 0 500 100" preserveAspectRatio="none">
+          <path d="M0,50 L100,50 L120,20 L140,80 L160,10 L180,90 L200,50 L500,50" />
+        </svg>
+        <div class="row g-3 mt-2">
+          <div class="col-4"><div class="stat-card text-center"><div class="stat-value" data-count="98">0</div><div class="stat-label">Health score accuracy*</div></div></div>
+          <div class="col-4"><div class="stat-card text-center"><div class="stat-value" data-count="24">0</div><div class="stat-label">Lab markers read</div></div></div>
+          <div class="col-4"><div class="stat-card text-center"><div class="stat-value" data-count="8">0</div><div class="stat-label">Risk categories</div></div></div>
+        </div>
+        <p class="text-muted small mt-2">*Self-consistency against reference ranges, not clinical validation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container py-5" id="features">
+  <div class="text-center mb-5">
+    <h2 class="display mb-2">Everything your report needed to say — clearly</h2>
+    <p class="text-muted">From raw PDF to explained insight in one upload.</p>
+  </div>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="feature-card fade-in">
+        <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="2"/><path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <h5>Automatic extraction</h5>
+        <p class="text-muted mb-0">Detects patient info and up to 24 lab markers from PDF or text reports, no manual data entry.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card fade-in">
+        <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <h5>Abnormal value flags</h5>
+        <p class="text-muted mb-0">Every value is compared against clinical reference ranges and flagged normal, low, high, or critical.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card fade-in">
+        <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12h4l3 8 4-16 3 8h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h5>Health score &amp; trends</h5>
+        <p class="text-muted mb-0">A 0–100 score weighted across blood, kidney, liver, cholesterol, and vitamin categories, tracked over time.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card fade-in">
+        <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>
+        <h5>Educational risk overview</h5>
+        <p class="text-muted mb-0">Confidence-scored estimates for anemia, diabetes, heart, kidney, liver, and thyroid risk categories.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card fade-in">
+        <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 19h16M4 15l4-4 3 3 5-6 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h5>Interactive charts</h5>
+        <p class="text-muted mb-0">Bar, radar, gauge, and trend visualizations built with Plotly — explore your own data, not a static PDF.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card fade-in">
+        <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h5>Export &amp; share</h5>
+        <p class="text-muted mb-0">Download a polished PDF or CSV of any report to bring to your next doctor's visit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5" id="how-it-works" style="background: var(--surface);">
+  <div class="container">
+    <h2 class="display text-center mb-5">How it works</h2>
+    <div class="row g-4 text-center">
+      <div class="col-md-3">
+        <div class="stat-value mb-2">1</div>
+        <h6>Upload</h6>
+        <p class="text-muted small">Drag in a PDF, TXT, or image of your lab report.</p>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-value mb-2">2</div>
+        <h6>Extract</h6>
+        <p class="text-muted small">We detect patient info and lab values automatically.</p>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-value mb-2">3</div>
+        <h6>Analyze</h6>
+        <p class="text-muted small">Values are flagged, scored, and explained in plain language.</p>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-value mb-2">4</div>
+        <h6>Review</h6>
+        <p class="text-muted small">Explore charts, download a PDF, and bring it to your doctor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container py-5">
+  <h2 class="display text-center mb-5">What early testers say</h2>
+  <div class="row g-4">
+    {% for name, role, quote in [
+      ("Amara O.", "Grad student", "Finally I understood what my cholesterol panel actually meant before my appointment."),
+      ("Devon K.", "Software engineer", "The trend chart made it obvious my vitamin D kept dropping every winter."),
+      ("Priya S.", "Nurse (personal use)", "Nice to have a clean summary I could compare against my own notes.")
+    ] %}
+    <div class="col-md-4">
+      <div class="card-custom h-100">
+        <p class="mb-3">"{{ quote }}"</p>
+        <div class="d-flex align-items-center gap-2">
+          <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:36px;height:36px;background:var(--primary-light);color:var(--primary);font-weight:700;">{{ name[0] }}</div>
+          <div><div class="fw-semibold small">{{ name }}</div><div class="text-muted small">{{ role }}</div></div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="py-5" style="background: var(--surface);">
+  <div class="container" style="max-width: 760px;">
+    <h2 class="display text-center mb-4">Frequently asked questions</h2>
+    <div class="accordion" id="faq">
+      {% for q, a in [
+        ("Is this a substitute for a doctor?", "No. VitalScan AI is an educational tool only and does not provide medical diagnoses. Always consult a licensed healthcare professional about your results."),
+        ("What file types can I upload?", "PDF and plain text reports are fully supported today. Image uploads (PNG/JPEG) are accepted but OCR extraction is coming in a future update."),
+        ("Is my data private?", "Reports are stored per-account behind a login and are only visible to you and, if enabled, an administrator."),
+        ("How is the health score calculated?", "It's a weighted formula across blood, kidney, liver, cholesterol, diabetes, and vitamin categories based on how far your values sit from standard reference ranges — not a diagnostic algorithm.")
+      ] %}
+      <div class="accordion-item" style="background: var(--surface); border-color: var(--border);">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ loop.index }}" style="background: var(--surface); color: var(--text);">
+            {{ q }}
+          </button>
+        </h2>
+        <div id="faq{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent="#faq">
+          <div class="accordion-body text-muted">{{ a }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="container py-5 text-center">
+  <h2 class="display mb-3">Ready to see what your report is really saying?</h2>
+  <a href="{{ url_for('register') }}" class="btn-primary-custom btn btn-lg">Create your free account</a>
+</section>
+
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll('[data-count]').forEach(el => {
+  const target = parseInt(el.dataset.count, 10);
+  let cur = 0;
+  const step = Math.max(1, Math.round(target / 40));
+  const iv = setInterval(() => {
+    cur += step;
+    if (cur >= target) { cur = target; clearInterval(iv); }
+    el.textContent = cur;
+  }, 25);
+});
+</script>
+{% endblock %}
