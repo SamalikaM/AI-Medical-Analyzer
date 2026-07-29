@@ -4,10 +4,6 @@ An AI-assisted web app that reads uploaded lab reports (PDF/TXT), extracts lab v
 
 **This is an educational tool only. It is not a medical diagnosis. Always consult a licensed healthcare professional about your results.**
 
-## Screenshots
-
-> _Add screenshots here after your first deploy: landing page, dashboard, report detail, PDF export._
-
 ## Features
 
 - Marketing landing page (hero, features, how-it-works, testimonials, FAQ)
